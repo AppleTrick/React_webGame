@@ -13,6 +13,7 @@
     <div id="root"></div>
     <script type="text/babel">
         class GuGu extends React.Component{
+            // state 선언만 사용할 수 있다.
             constructor(props){
                 super(props);
                 // 바뀌는 걸 속성으로 추가한다.
@@ -23,15 +24,29 @@
                     result : '',
                 };
             }
+
+            // 직접 만든 함수는 화살표 함수를 써야 된다.
             onSubmit = (e) => {
                 e.preventDefault();
                 if(parseInt(this.state.value) === this.state.first * this.state.second){
-                    this.setState({
-                        result : '정답',
-                        first : Math.ceil(Math.random() * 9),
-                        second : Math.ceil(Math.random() * 9),
-                        value : '',
+                    this.setState( (e) =>{
+                        return {
+                            result : '정답 : ' + e.value,
+                            first : Math.ceil(Math.random() * 9),
+                            second : Math.ceil(Math.random() * 9),
+                            value : '',
+                        }
                     });
+
+                    // setState 함수는 비동기이다.
+
+                    this.setState((prevState) => {
+                        return{
+                            value : prevState.value + 1,
+                        }
+                    });
+                    this.input.focus();
+
                 }else {
                     this.setState({
                         result : '땡',
@@ -44,16 +59,19 @@
                 this.setState({value : e.target.value})
             };
 
+
             render(){
                 return (
-                    <div>
+                    // 쓸때 없는 div를 없애기 위해 <> </> 형식으로 만들 수 있다. - babel 이 지원하면
+                    // 없으면 <React.Fragment> 를 이용하여 없애기
+                    <React.Fragment>
                         <div> {this.state.first} 곱하기 {this.state.second}</div>
                         <form onSubmit={this.onSubmit}>
-                            <input type="number" value={this.state.value} onChange={this.onChange}/>
+                            <input ref={(c) => {this.input = c;}} type="number" value={this.state.value} onChange={this.onChange}/>
                             <button>입력!</button>    
                         </form>
                         <div> {this.state.result}</div>
-                    </div>
+                    </React.Fragment>
                 );
             }
         }
