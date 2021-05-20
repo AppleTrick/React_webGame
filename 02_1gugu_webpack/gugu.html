@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class GuGu extends React.Component{
+            // state 선언만 사용할 수 있다.
+            constructor(props){
+                super(props);
+                // 바뀌는 걸 속성으로 추가한다.
+                this.state = {
+                    first : Math.ceil(Math.random() * 9),
+                    second : Math.ceil(Math.random() * 9),
+                    value : '',
+                    result : '',
+                };
+            }
+
+            // 직접 만든 함수는 화살표 함수를 써야 된다.
+            onSubmit = (e) => {
+                e.preventDefault();
+                if(parseInt(this.state.value) === this.state.first * this.state.second){
+                    this.setState( (e) =>{
+                        return {
+                            result : '정답 : ' + e.value,
+                            first : Math.ceil(Math.random() * 9),
+                            second : Math.ceil(Math.random() * 9),
+                            value : '',
+                        }
+                    });
+
+                    // setState 함수는 비동기이다.
+                    this.setState((prevState) => {
+                        return{
+                            value : prevState.value + 1,
+                        }
+                    });
+                    this.input.focus();
+
+                }else {
+                    this.setState({
+                        result : '땡',
+                        value : ''
+                    });
+                }
+            };
+
+            onChange = (e) => {
+                this.setState({value : e.target.value})
+            };
+
+
+            render(){
+                return (
+                    // 쓸때 없는 div를 없애기 위해 <> </> 형식으로 만들 수 있다. - babel 이 지원하면
+                    // 없으면 <React.Fragment> 를 이용하여 없애기
+                    <React.Fragment>
+                        <div> {this.state.first} 곱하기 {this.state.second}</div>
+                        <form onSubmit={this.onSubmit}>
+                            <input ref={(c) => {this.input = c;}} type="number" value={this.state.value} onChange={this.onChange}/>
+                            <button>입력!</button>    
+                        </form>
+                        <div> {this.state.result}</div>
+                    </React.Fragment>
+                );
+            }
+        }
+
+    </script>
+    <script type="text/babel">
+        ReactDOM.render( <div><GuGu/><GuGu/><GuGu/></div>, document.querySelector("#root"));
+
+    </script>
+</body>
+</html>
