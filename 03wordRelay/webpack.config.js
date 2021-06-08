@@ -2,6 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 // 노드에서 경로를 쉽게 조작할수있게 해주는것
 
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
 module.exports = {
     name : 'word-relay-setting',    // 모듈 이름
     mode : 'development', // 실서비스 : production
@@ -33,17 +35,28 @@ module.exports = {
                 ],
                 // preset-enc 다수의 플러그인들
                 // 추가적인 설정을 적용하고 싶다.
-                plugins: [],
+                plugins: [
+                    '@babel/plugin-proposal-class-properties',
+                    'react-refresh/babel'
+                ],
             },
         }],
     },
     plugins : [
         new webpack.LoaderOptionsPlugin({debug: true}),
+        new RefreshWebpackPlugin(),
     ], // 확장프로그램의 개념
     output : {  // 출력
         path : path.join(__dirname, 'dist'), // __dirname 현재 폴더 안에 dist
-        filename : 'app.js'
+        filename : 'app.js',
+        publicPath: '/dist/',
     },
+
+    devServer : {
+        publicPath : '/dist/',
+        hot : true,
+        open : true,
+    }
 };
 
 // 목적 : jsx를 합쳐서 app.js를 만들어서 index에서 작동하게 만들어주는것 !
