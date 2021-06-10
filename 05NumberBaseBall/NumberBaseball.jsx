@@ -1,5 +1,6 @@
 import React , { Component } from 'react';
 // 합치는 게 가능const { Component } = React;
+import Try from './Try';
 
 function getNumbers() { // 숫자 4개를 랜덤하게 뽑는 함수
 
@@ -20,6 +21,13 @@ class NumberBaseball extends Component{
     onChangeInput = () =>{
 
     }
+
+    fruits = [
+        { fruit : '사과', taste : '맛있다'},
+        { fruit : '감', taste : '떫다'},
+        { fruit : '귤', taste : '시다'},
+        { fruit : '배', taste : '달다다'},
+    ];
     
     render(){
         return(
@@ -39,17 +47,11 @@ class NumberBaseball extends Component{
                     }) } */}
 
                     {/* 오브젝트 형식 */}
-                    {[
-                        { fruit : '사과', taste : '맛있다'},
-                        { fruit : '감', taste : '떫다'},
-                        { fruit : '귤', taste : '시다'},
-                        { fruit : '배', taste : '달다다'},
-                    ].map( (v) =>  (
-                            <li key={v.fruit + v.taste}><b>{v.fruit}</b> - {v.taste}</li>
-                        )
-                    )}
-
-
+                    {this.fruits.map((v,i) => {
+                        return(
+                            <Try value={v} index={i}/>
+                        );
+                    })}
                 </ul>
             </>
         )
