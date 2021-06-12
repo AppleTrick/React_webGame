@@ -8,6 +8,7 @@ const Try = ( {tryInfo} ) => {
         </li>
     )
 }
+export default Try;
 
 // class Try extends Component {
 //     render() {

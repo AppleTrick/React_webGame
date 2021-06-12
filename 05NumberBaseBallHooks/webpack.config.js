@@ -1,4 +1,8 @@
-const { webpack } = require("webpack");
+const path = require('path');
+const webpack = require('webpack');
+// 노드에서 경로를 쉽게 조작할수있게 해주는것
+
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
     name : 'NumberBasesballHooks',
@@ -21,8 +25,8 @@ module.exports = {
                 loader : 'babel-loader',
                 options : {
                     presets : [
-                        ['babel/preset-env', {
-                            targets : { browsers : ['> 1% in KR'],},
+                        ['@babel/preset-env',{
+                            targets : {browsers:['> 1% in KR'],},
                             debug : true,
                         }],
                         '@babel/preset-react',
